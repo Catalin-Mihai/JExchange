@@ -39,6 +39,9 @@ public class OfficeService extends MoneyService {
         return getFormatedMoneyAmounts(sorted);
     }
 
+    /*
+        OFFICE METHODS
+     */
     public void resetOfficeMoney() {
         MoneyRepository repo = officeMoneyRepository;
         repo.getRepository().clear();
@@ -60,46 +63,6 @@ public class OfficeService extends MoneyService {
         return office.getAddress();
     }
 
-    public Float getExchangeRate(String fromCurrencyName, String toCurrencyName) {
-        Currency from = currencyService.getCurrencyByName(fromCurrencyName);
-        Currency to = currencyService.getCurrencyByName(toCurrencyName);
-        ExchangeRate exchange = exchangeRateRepository.getExchangeRate(from, to);
-        return exchange.getRate();
-    }
-
-    public ArrayList<ExchangeRate> getAllExchangeRates() {
-        ArrayList<ExchangeRate> exchangeRates = new ArrayList<>();
-        for (int i = 0; i < exchangeRateRepository.getSize(); i++) {
-            exchangeRates.add(exchangeRateRepository.get(i));
-        }
-        return exchangeRates;
-    }
-
-    public String getAllExchangeRatesFormatted() {
-        StringBuilder string = new StringBuilder();
-        for (ExchangeRate exchangeRate : getAllExchangeRates()) {
-            string.append(exchangeRate.getFrom().getCurrencyName())
-                    .append(" -> ")
-                    .append(exchangeRate.getTo().getCurrencyName())
-                    .append(" : ")
-                    .append(exchangeRate.getRate())
-                    .append(System.getProperty("line.separator"));
-        }
-        return string.toString();
-    }
-
-    public void addExchangeRate(String fromCurrencyName, String toCurrencyName, Float exchangeRate) {
-        Currency from = currencyService.getCurrencyByName(fromCurrencyName);
-        Currency to = currencyService.getCurrencyByName(toCurrencyName);
-        if (from == null || to == null) {
-            throw new InvalidCurrencyNameException("Nu exista aceasta valuta");
-        }
-        if (exchangeRateRepository.exists(new ExchangeRate(from, to, exchangeRate)))
-            throw new DuplicateExchangeRateException("Exista deja aceasta conversie");
-        exchangeRateRepository.add(new ExchangeRate(from, to, exchangeRate));
-        exchangeRateRepository.add(new ExchangeRate(to, from, 1 / exchangeRate));
-    }
-
     public Office getOffice() {
         return Office.getInstance();
     }
@@ -107,6 +70,33 @@ public class OfficeService extends MoneyService {
     public Float getMoneyAmount(String currencyName) {
         return super.getMoneyAmount(currencyName);
     }
+
+    public void readOfficeInfoFromFile(String fileName) throws IOException {
+        FileReaderService fileReaderService = FileReaderService.getInstance(fileName);
+        ArrayList<String> lines = fileReaderService.read();
+        for (int i = 1; i < lines.size(); i++) {
+            String line = lines.get(i);
+            line = line.replace("\"", "");
+            String[] data = line.split(",");
+            String officeName = data[0];
+            String officeAddress = data[1];
+            office.setOfficeName(officeName);
+            office.setAddress(officeAddress);
+
+            String[] allMoney = data[2].split("\\|");
+            for (String money : allMoney) {
+                String[] temp = money.strip().split(" ");
+                String currencyName = temp[1];
+                float amount = Float.parseFloat(temp[0]);
+                addMoney(currencyName, amount);
+            }
+        }
+    }
+
+    /*
+        EXCHANGES METHODS
+     */
+
 
     public int exchangeMoney(String clientFirstName, String fromCurrencyName, String toCurrencyName, Float amount) {
         if (clientsManager.getMoneyAmount(clientFirstName, fromCurrencyName) < amount) {
@@ -126,6 +116,10 @@ public class OfficeService extends MoneyService {
         Exchange exchange = new ExchangeService().addExchange(clientFirstName, fromCurrencyName,
                 toCurrencyName, amount, newAmount, rate);
         return exchange.getExchangeID();
+    }
+
+    public Exchange getExchange(Integer exchangeID) {
+        return new ExchangeService().getExchange(exchangeID);
     }
 
     public ArrayList<Exchange> getAllExchanges() {
@@ -179,7 +173,6 @@ public class OfficeService extends MoneyService {
         fileWriterService.write(exchangesExportFileHeader, false);
         // Formatare text
         for (Exchange exchange : getAllExchanges()) {
-            System.out.println(exchange.getClient().getName());
             String line = "\"" + exchange.getClient().getName() + "\", "
                     + "\"" + exchange.getMoneyGiven().getAmount() + " " + exchange.getMoneyGiven().getCurrencyName() + "\", "
                     + "\"" + exchange.getMoneyReceived().getAmount() + " " + exchange.getMoneyReceived().getCurrencyName() + "\", "
@@ -187,6 +180,50 @@ public class OfficeService extends MoneyService {
             fileWriterService.write(line, false);
         }
         fileWriterService.closeFile();
+    }
+
+    /*
+        EXCHANGE RATES METHODS
+     */
+
+    public Float getExchangeRate(String fromCurrencyName, String toCurrencyName) {
+        Currency from = currencyService.getCurrencyByName(fromCurrencyName);
+        Currency to = currencyService.getCurrencyByName(toCurrencyName);
+        ExchangeRate exchange = exchangeRateRepository.getExchangeRate(from, to);
+        return exchange.getRate();
+    }
+
+    public ArrayList<ExchangeRate> getAllExchangeRates() {
+        ArrayList<ExchangeRate> exchangeRates = new ArrayList<>();
+        for (int i = 0; i < exchangeRateRepository.getSize(); i++) {
+            exchangeRates.add(exchangeRateRepository.get(i));
+        }
+        return exchangeRates;
+    }
+
+    public String getAllExchangeRatesFormatted() {
+        StringBuilder string = new StringBuilder();
+        for (ExchangeRate exchangeRate : getAllExchangeRates()) {
+            string.append(exchangeRate.getFrom().getCurrencyName())
+                    .append(" -> ")
+                    .append(exchangeRate.getTo().getCurrencyName())
+                    .append(" : ")
+                    .append(exchangeRate.getRate())
+                    .append(System.getProperty("line.separator"));
+        }
+        return string.toString();
+    }
+
+    public void addExchangeRate(String fromCurrencyName, String toCurrencyName, Float exchangeRate) {
+        Currency from = currencyService.getCurrencyByName(fromCurrencyName);
+        Currency to = currencyService.getCurrencyByName(toCurrencyName);
+        if (from == null || to == null) {
+            throw new InvalidCurrencyNameException("Nu exista aceasta valuta");
+        }
+        if (exchangeRateRepository.exists(new ExchangeRate(from, to, exchangeRate)))
+            throw new DuplicateExchangeRateException("Exista deja aceasta conversie");
+        exchangeRateRepository.add(new ExchangeRate(from, to, exchangeRate));
+        exchangeRateRepository.add(new ExchangeRate(to, from, 1 / exchangeRate));
     }
 
     public void readExchangeRatesFromFile(String fileName) throws IOException {
@@ -211,7 +248,6 @@ public class OfficeService extends MoneyService {
         for (ExchangeRate exchangeRate : exchangeRates) {
             //Nu scriem si conversia inversa
             if (repetitions.get(exchangeRate.getTo()) != exchangeRate.getFrom()) {
-                System.out.println(exchangeRate.getFrom().getCurrencyName());
                 String line = "";
                 line = "\"" + exchangeRate.getFrom().getCurrencyName() + "\"" +
                         ", \"" + exchangeRate.getTo().getCurrencyName() + "\"" +
@@ -221,27 +257,5 @@ public class OfficeService extends MoneyService {
             }
         }
         fileWriterService.closeFile();
-    }
-
-    public void readOfficeInfoFromFile(String fileName) throws IOException {
-        FileReaderService fileReaderService = FileReaderService.getInstance(fileName);
-        ArrayList<String> lines = fileReaderService.read();
-        for (int i = 1; i < lines.size(); i++) {
-            String line = lines.get(i);
-            line = line.replace("\"", "");
-            String[] data = line.split(",");
-            String officeName = data[0];
-            String officeAddress = data[1];
-            office.setOfficeName(officeName);
-            office.setAddress(officeAddress);
-
-            String[] allMoney = data[2].split("\\|");
-            for (String money : allMoney) {
-                String[] temp = money.strip().split(" ");
-                String currencyName = temp[1];
-                float amount = Float.parseFloat(temp[0]);
-                addMoney(currencyName, amount);
-            }
-        }
     }
 }

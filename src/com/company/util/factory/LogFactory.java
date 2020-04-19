@@ -1,10 +1,7 @@
 package com.company.util.factory;
 
 import com.company.domain.*;
-import com.company.service.ClientsManager;
-import com.company.service.CurrencyService;
-import com.company.service.ExchangeService;
-import com.company.service.LogService;
+import com.company.service.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -127,7 +124,7 @@ public class LogFactory {
 
             case EXCHANGE_EXCHANGE_MONEY:
                 logLevel = Log.LogLevel.MEDIUM;
-                Exchange exchange = new ExchangeService().getExchange(Integer.parseInt(param[0]));
+                Exchange exchange = new OfficeService().getExchange(Integer.parseInt(param[0]));
                 message = "Clientul " + exchange.getClient().getName()
                         + " a schimbat suma de "
                         + exchange.getMoneyGiven()

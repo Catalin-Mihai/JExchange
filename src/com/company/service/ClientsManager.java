@@ -149,7 +149,6 @@ public class ClientsManager {
         fileWriterService.write(exportFileHeader, false);
         // Formatare text
         for (Client client : getAllClients()) {
-            System.out.println(client.getName());
             StringBuilder line = new StringBuilder("\"" + client.getFirstName() + "\", "
                     + "\"" + client.getLastName() + "\"");
             if (getClientAllMoney(client.getFirstName()).size() == 0) {
