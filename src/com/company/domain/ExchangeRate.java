@@ -15,7 +15,7 @@ public class ExchangeRate {
      */
     private Float rate;
 
-    ExchangeRate(Currency from, Currency to, Float rate){
+    public ExchangeRate(Currency from, Currency to, Float rate) {
         this.from = from;
         this.to = to;
         this.rate = rate;
@@ -52,8 +52,7 @@ public class ExchangeRate {
         if (o == null || getClass() != o.getClass()) return false;
         ExchangeRate that = (ExchangeRate) o;
         return Objects.equals(from, that.from) &&
-                Objects.equals(to, that.to) &&
-                Objects.equals(rate, that.rate);
+                Objects.equals(to, that.to);
     }
 
     @Override

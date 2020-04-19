@@ -6,44 +6,44 @@ import java.util.Objects;
  * Defineste suma de bani detinuta de un client intr-o anumita valuta
  */
 
-public class Money extends Currency implements Comparable<Money>{
+public class Money extends Currency implements Comparable<Money> {
 
-    private int amount;
+    private Float amount;
 
-    public Money(Currency currency, int amount){
+    public Money(Currency currency, Float amount) {
         super(currency.currencyName, currency.symbol, currency.country);
         this.amount = amount;
     }
 
-    Money(String name, String symbol){
+    public Money(String name, String symbol) {
         super(name, symbol);
-        amount = 0;
+        amount = 0f;
     }
 
-    Money(String name, String symbol, String country) {
+    public Money(String name, String symbol, String country) {
         super(name, symbol, country);
-        amount = 0;
+        amount = 0f;
     }
 
-    Money(String name, String symbol, int amount){
+    Money(String name, String symbol, Float amount) {
         this(name, symbol);
         this.amount = amount;
     }
 
-    Money(String name, String symbol, String country, int amount){
+    Money(String name, String symbol, String country, Float amount) {
         this(name, symbol, country);
         this.amount = amount;
     }
 
-    public int getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 
-    public boolean equalsCurrency(Currency currency){
+    public boolean equalsCurrency(Currency currency) {
         return super.equals(currency);
     }
 
@@ -51,9 +51,9 @@ public class Money extends Currency implements Comparable<Money>{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Money money = (Money) o;
-        return amount == money.amount;
+        return super.equals(o);
+        /*Money money = (Money) o;
+        return amount == money.amount;*/
     }
 
     @Override
@@ -64,9 +64,14 @@ public class Money extends Currency implements Comparable<Money>{
 
     @Override
     public int compareTo(Money o) {
-        if(this.getAmount() > o.getAmount())
+        if (this.getAmount() > o.getAmount())
             return 1;
-        else if(this.getAmount() == o.getAmount()) return 0;
+        else if (this.getAmount().equals(o.getAmount())) return 0;
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        return amount + " " + getCurrencySymbol();
     }
 }

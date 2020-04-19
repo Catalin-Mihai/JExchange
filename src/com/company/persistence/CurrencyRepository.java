@@ -2,38 +2,31 @@ package com.company.persistence;
 
 import com.company.domain.Currency;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
-/**
- * Clasa Singleton
- * Tine minte toate valutele folosite in program
- * O valuta este adaugata la fiecare instantiere a clasei Currency
- */
-
-public class CurrencyRepository{
+public class CurrencyRepository {
 
     private HashSet<Currency> currencies;
 
-    public CurrencyRepository(){
+    public CurrencyRepository() {
         currencies = new HashSet<>();
     }
 
-    public boolean exists(Currency currency){
+    public boolean exists(Currency currency) {
         return currencies.contains(currency);
     }
 
-    public Currency getCurrencyByName(String name){
-        for(Currency curr: currencies){
+    public Currency getCurrencyByName(String name) {
+        for (Currency curr : currencies) {
             // Valuta a fost definita
-            if(curr.getCurrencyName().equals(name)){
+            if (curr.getCurrencyName().equals(name)) {
                 return curr;
             }
         }
         return null;
     }
 
-    public HashSet<Currency> getAllCurrencies(){
+    public HashSet<Currency> getAllCurrencies() {
         return currencies;
     }
 
@@ -42,8 +35,8 @@ public class CurrencyRepository{
     }
 
     public void update(Currency entity) {
-        for(Currency curr: currencies){
-            if(curr == entity){
+        for (Currency curr : currencies) {
+            if (curr == entity) {
                 currencies.remove(curr);
                 currencies.add(entity);
             }
@@ -54,7 +47,7 @@ public class CurrencyRepository{
         currencies.remove(entity);
     }
 
-    public HashSet<Currency> getRepository(){
+    public HashSet<Currency> getRepository() {
         return currencies;
     }
 

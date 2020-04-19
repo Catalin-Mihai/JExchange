@@ -1,20 +1,13 @@
 package com.company.domain;
 
-import com.company.persistence.MoneyRepository;
-
 import java.util.Objects;
 
 public class Client {
 
-    /**
-     * Aici repository-ul nu trebuie sa fie static. Fiecare client are repository-ul lui
-     */
-    private MoneyRepository moneyRepository = new MoneyRepository();
-
     private String firstName;
     private String lastName;
 
-    public Client(String fname, String lname){
+    public Client(String fname, String lname) {
         this.firstName = fname;
         this.lastName = lname;
     }
@@ -35,19 +28,7 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public void addMoney(Money money){
-
-    }
-
-    public MoneyRepository getMoneyRepository() {
-        return moneyRepository;
-    }
-
-    public void setMoneyRepository(MoneyRepository moneyRepository) {
-        this.moneyRepository = moneyRepository;
-    }
-
-    public String getName(){
+    public String getName() {
         return firstName + " " + lastName;
     }
 

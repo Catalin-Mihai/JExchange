@@ -7,76 +7,82 @@ package com.company.persistence;
 
 import com.company.domain.Client;
 import com.company.exceptions.DuplicateClientException;
-import com.company.exceptions.DuplicateCurrencyException;
+import com.company.util.ClientData;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
-public class ClientsRepository implements GenericPersonsRepository<Client> {
+public class ClientsRepository {
 
-    private ArrayList<Client> clients = new ArrayList<>();
+    /**
+     * Aceasta clasa contine detaliile clientului -> Client
+     * si portofelul/banii clientului -> MoneyRepository
+     * Unui client ii este asociat/mapat portofelul.
+     */
 
-    @Override
-    public void add(Client entity) throws DuplicateClientException {
-        if(exists(entity)) throw new DuplicateClientException("Exista deja un client cu acest nume!");
-        clients.add(entity);
+    private static HashMap<Client, MoneyRepository> clients = new HashMap<>();
+
+    public void add(Client client) throws DuplicateClientException {
+        if (exists(client)) throw new DuplicateClientException("Exista deja un client cu acest nume!");
+        clients.put(client, new MoneyRepository());
     }
 
-    @Override
-    public Client get(int index) {
-        return clients.get(index);
+    public void add(Client client, MoneyRepository money) throws DuplicateClientException {
+        if (exists(client)) throw new DuplicateClientException("Exista deja un client cu acest nume!");
+        clients.put(client, money);
     }
 
-    public int getIndex(Client client) {
-        for(int i = 0; i < clients.size(); i++){
-            if(client.equals(clients.get(i))){
-                return i;
-            }
-        }
-        return -1;
+    public ClientData get(Client client) {
+        if (!exists(client)) throw new InvalidParameterException("Clientul nu exista");
+        return new ClientData(client, clients.get(client));
     }
 
-    public boolean exists(Client client){
-        return clients.contains(client);
+    public boolean exists(Client client) {
+        return clients.containsKey(client);
     }
 
-    @Override
-    public void update(Client entity) {
-        int index = getIndex(entity);
-        if(index == -1) throw new InvalidParameterException("Nu exista acest client!");
-        clients.set(index, entity);
+    public void update(Client oldClient, Client newClient) {
+        if (!exists(oldClient)) throw new InvalidParameterException("Clientul nu exista");
+        // Inlocuire cheie veche cu cea noua pentru a nu modifica manual toate campurile clientului
+        MoneyRepository money = clients.get(oldClient);
+        clients.remove(oldClient);
+        clients.put(newClient, money);
     }
 
-    public int getClientIndexByFirstName(String firstName){
-        for(int i = 0; i < clients.size(); i++){
-            if(clients.get(i).getFirstName().equals(firstName)){
-                return i;
-            }
-        }
-        return -1;
+    public void update(Client client, MoneyRepository moneyRepository) {
+        if (!exists(client)) throw new InvalidParameterException("Clientul nu exista");
+        clients.remove(client);
+        clients.put(client, moneyRepository);
     }
 
-    public Client getClientByFirstName(String firstName) throws InvalidParameterException{
-        for(int i = 0; i < clients.size(); i++){
-            if(clients.get(i).getFirstName().equals(firstName)){
-                return clients.get(i);
+    public Client getClientByFirstName(String firstName) throws InvalidParameterException {
+        for (Client key : clients.keySet()) {
+            if (key.getFirstName().equals(firstName)) {
+                return key;
             }
         }
         throw new InvalidParameterException("Nu exista un client cu acest nume!");
     }
 
-    @Override
-    public void remove(Client entity) {
-        int index = getIndex(entity);
-        if(index == -1) throw new InvalidParameterException("Nu exista acest client!");
-        clients.remove(index);
+    public Client getClientByName(String name) throws InvalidParameterException {
+        for (Client key : clients.keySet()) {
+            if (key.getName().equals(name)) {
+                return key;
+            }
+        }
+        throw new InvalidParameterException("Nu exista un client cu acest nume!");
     }
 
-    public ArrayList<Client> getRepository(){
-        return clients;
+    public void remove(Client client) {
+        if (!exists(client)) throw new InvalidParameterException("Nu exista acest client!");
+        clients.remove(client);
     }
 
-    @Override
+    public Set<Client> getAllClients() {
+        return clients.keySet();
+    }
+
     public int getSize() {
         return clients.size();
     }

@@ -1,7 +1,7 @@
 package com.company.exceptions;
 
-public class DuplicateClientException extends Exception {
-    public DuplicateClientException(String cause){
+public class DuplicateClientException extends RuntimeException {
+    public DuplicateClientException(String cause) {
         super(cause);
     }
 }
