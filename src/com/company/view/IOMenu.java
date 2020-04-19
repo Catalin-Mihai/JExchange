@@ -28,37 +28,6 @@ public class IOMenu {
 
     private String authorName = "Cioboata Mihai Catalin";
 
-/*    private enum Menu{
-        MONEZI,
-        CLIENT,
-        CASA_SCHIMB_VALUTAR
-
-        public enum ClientCommands{
-            ADAUGA_CLIENT,
-            SCHIMBA_NUME,
-            SCHIMBA_PRENUME,
-            RESETEAZA_BANI,
-            AFISEAZA_BANI
-        }
-
-        public enum MoneziCommands{
-            ADAUGA_MONEDA,
-            STERGE_MONEDA,
-            SCHIMBA_NUME_MONEDA,
-            SCHIMBA_SIMBOL_MONEDA,
-            SCHIMBA_TARA_MONEDA,
-            AFISEAZA_MONEDA,
-            AFISEAZA_TOATE_MONEZILE
-        }
-
-        public enum CasaSchimbCommands{
-            ADAUGA_BANI,
-            RESETEAZA_BANI,
-            AFISEAZA_BANI
-        }
-    }
-*/
-
     IOMenu(InputStream input, PrintStream output) {
         this.input = new Scanner(input);
         this.output = output;

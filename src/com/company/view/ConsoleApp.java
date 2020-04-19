@@ -63,7 +63,7 @@ public class ConsoleApp {
 
         //Salvare in fisier
         try {
-            System.out.println("Saving data...");
+            System.out.println("Saving...");
             clientsManager.writeClientsToFile(clientsFileName);
             currencyService.writeToFile(currenciesFileName);
             exchangeOfficeService.writeExchangeRatesToFile(exchangeRatesFileName);
