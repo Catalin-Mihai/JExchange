@@ -1,3 +1,4 @@
-/out/
-/database/
-/.idea/
+
+.idea/
+out/
+database/
