@@ -1,14 +1,7 @@
 package com.company.view;
 
-import com.company.exceptions.DuplicateClientException;
-import com.company.exceptions.DuplicateCurrencyException;
-import com.company.exceptions.InvalidCurrencyNameException;
-import com.company.service.ClientsManager;
-import com.company.service.CurrencyService;
-import com.company.service.LogService;
-import com.company.service.OfficeService;
+import com.company.service.entity.LogService;
 
-import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.concurrent.TimeUnit;
 
@@ -20,27 +13,11 @@ public class ConsoleApp {
     private static final String exchangesFileName = "./database/exchanges.csv";
     private static final String exchangeOfficeFileName = "./database/office.csv";
     private static final String logsFileName = "./database/logs.csv";
-    private static IOMenu ioMenu = new IOMenu(System.in, System.out);
+    private static final IOMenu ioMenu = new IOMenu(System.in, System.out);
 
     public static void main(String[] args) {
 
         LogService.getInstance().setLogFileName(logsFileName);
-
-        CurrencyService currencyService = new CurrencyService();
-        ClientsManager clientsManager = new ClientsManager();
-        OfficeService exchangeOfficeService = new OfficeService();
-
-        try {
-            currencyService.readCurrenciesFromFile(currenciesFileName);
-            clientsManager.readClientsFromFile(clientsFileName);
-            exchangeOfficeService.readExchangeRatesFromFile(exchangeRatesFileName);
-            exchangeOfficeService.readOfficeInfoFromFile(exchangeOfficeFileName);
-            exchangeOfficeService.readExchangesFromFile(exchangesFileName);
-        } catch (DuplicateCurrencyException | IOException e) {
-            e.printStackTrace();
-        }
-
-        /*-------------------------------------*/
 
         ioMenu.showAppDesc();
         while (ioMenu.getMenuOption() != 0) {
@@ -59,17 +36,6 @@ public class ConsoleApp {
                 e.printStackTrace();
             }
 
-        }
-
-        //Salvare in fisier
-        try {
-            System.out.println("Saving...");
-            clientsManager.writeClientsToFile(clientsFileName);
-            currencyService.writeToFile(currenciesFileName);
-            exchangeOfficeService.writeExchangeRatesToFile(exchangeRatesFileName);
-            exchangeOfficeService.writeExchangesToFile(exchangesFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
