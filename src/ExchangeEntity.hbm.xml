@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.company.domain.ExchangeEntity" table="exchanges" schema="pao">
+        <id name="id">
+            <column name="id" sql-type="int(11)"/>
+            <generator class="increment"/>
+        </id>
+        <!--JOIN cu cu clients-->
+<!--        <one-to-one name="client" class="com.company.domain.ClientEntity"-->
+<!--                    cascade="all"/>-->
+        <many-to-one name="client" class="com.company.domain.ClientEntity"
+                     column="client_id"
+                     cascade="all" foreign-key="FK_client_id" lazy="false"/>
+        <!--JOIN cu cu exchanged_money-->
+<!--        <one-to-one name="moneyGiven" class="com.company.domain.ExchangedMoneyEntity"-->
+<!--                    cascade="all"/>-->
+        <many-to-one name="moneyGiven" class="com.company.domain.ExchangedMoneyEntity"
+                     column="money_given_id"
+                     cascade="merge" foreign-key="FK_money_given_id" lazy="false"/>
+        <!--JOIN cu cu exchanged_money-->
+<!--        <one-to-one name="moneyReceived" class="com.company.domain.ExchangedMoneyEntity"-->
+<!--                    cascade="all"/>-->
+        <many-to-one name="moneyReceived" class="com.company.domain.ExchangedMoneyEntity"
+                     column="money_received_id"
+                     cascade="merge" foreign-key="FK_money_received_id" lazy="false"/>
+        <!--JOIN cu cu office-->
+<!--        <one-to-one name="office" class="com.company.domain.OfficeEntity"-->
+<!--                    cascade="all"/>-->
+        <many-to-one name="office" class="com.company.domain.OfficeEntity"
+                     column="office_id"
+                     cascade="all" foreign-key="FK_office_id" lazy="false"/>
+        <!--JOIN cu cu exchange_rate-->
+<!--        <one-to-one name="exchangeRate" class="com.company.domain.ExchangeRateEntity"-->
+<!--                    cascade="all"/>-->
+        <many-to-one name="exchangeRate" class="com.company.domain.ExchangeRateEntity"
+                     column="exchange_rate_id"
+                     cascade="all" foreign-key="FK_exchange_rate_id" lazy="false"/>
+    </class>
+</hibernate-mapping>
