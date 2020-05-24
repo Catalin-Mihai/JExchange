@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.company.domain.ClientMoneyEntity" table="clients_money" schema="pao">
+        <id name="id">
+            <column name="id" sql-type="int(11)"/>
+        </id>
+        <property name="amount">
+            <column name="amount" sql-type="float" precision="-1" not-null="true"/>
+        </property>
+<!--        JOIN cu cu currencies-->
+
+        <many-to-one name="currency" class="com.company.domain.CurrencyEntity"
+                     column="currency_id"
+                    cascade="all" foreign-key="FK_clients_money_currency_id" lazy="false"/>
+<!--        JOIN cu cu clients-->
+<!--        <set name = "currency" cascade="all">-->
+<!--            <key column = "id"/>-->
+<!--            <one-to-one> class="com.company.domain.CurrencyEntity"/>-->
+<!--        </set>-->
+        <many-to-one name="client" class="com.company.domain.ClientEntity"
+                     column="client_id"
+                    cascade="all" foreign-key="FK_clients_money_client_id" lazy="false"/>
+    </class>
+</hibernate-mapping>

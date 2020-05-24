@@ -4,3 +4,4 @@ database/
 
 *.class
 *.iml
+/lib/
