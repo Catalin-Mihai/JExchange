@@ -1,39 +1,31 @@
-package com.company.persistence;
+package com.company.persistence.local;
 
+import com.company.persistence.GenericRepositoryInterface;
+
+import javax.persistence.Entity;
 import java.util.ArrayList;
+import java.util.Collection;
 
-public abstract class GenericRepository<T> implements GenericArrayRepositoryInterface<T> {
+public abstract class GenericArrayListRepository<T> implements GenericRepositoryInterface<T> {
 
     ArrayList<T> repo = new ArrayList<>();
 
     @Override
-    public boolean add(T entity) {
+    public void add(T entity) {
         if (!exists(entity)){
             repo.add(entity);
-            return true;
         }
-        return false;
     }
 
     @Override
-    public T get(int index) throws IndexOutOfBoundsException {
-        return repo.get(index);
-    }
-
-
-
-    @Override
-    public int update(T entity) {
+    public void update(T entity) {
         for (int i = 0; i < repo.size(); i++) {
             if (repo.get(i).equals(entity)) {
                 repo.set(i, entity);
-                return 1;
             }
         }
-        return 0;
     }
 
-    @Override
     public int indexOf(T entity) {
         for (int i = 0; i < repo.size(); i++) {
             if (repo.get(i).equals(entity)) {
@@ -54,13 +46,11 @@ public abstract class GenericRepository<T> implements GenericArrayRepositoryInte
         return repo.size();
     }
 
-    @Override
     public boolean exists(T entity){
         return repo.contains(entity);
     }
 
-    @Override
-    public ArrayList<T> getRepo() {
+    public Collection<T> getAll() {
         return repo;
     }
 }
