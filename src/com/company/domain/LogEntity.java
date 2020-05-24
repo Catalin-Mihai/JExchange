@@ -1,7 +1,8 @@
 package com.company.domain;
 
-public class Log {
+public class LogEntity {
     //TODO: Subiect etc
+    Integer id;
     String numeActiune;
     String timeStamp;
     LogLevel logLevel;
@@ -41,6 +42,14 @@ public class Log {
 
     public void setLogMessage(String logMessage) {
         this.logMessage = logMessage;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public enum LogLevel {
