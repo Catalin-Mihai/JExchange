@@ -1,6 +1,6 @@
-package com.company.service;
+package com.company.service.entity;
 
-import com.company.domain.Log;
+import com.company.domain.LogEntity;
 import com.company.service.io.FileWriterService;
 import com.company.util.factory.LogFactory;
 
@@ -16,7 +16,8 @@ public class LogService {
     private final String defaultLogFileName = "logs.csv";
     private String logFileName;
 
-    private LogService() { }
+    private LogService() {
+    }
 
     public static LogService getInstance() {
         if (instance == null) {
@@ -31,7 +32,7 @@ public class LogService {
         return instance;
     }
 
-    private void writeToFile(Log log) {
+    private void writeToFile(LogEntity log) {
         try {
             FileWriterService fileWriterService = FileWriterService.getInstance(logFileName, true);
             if (fileWriterService.isEmptyFile()) {
@@ -50,7 +51,7 @@ public class LogService {
     }
 
     public void Log(LogTypes logType, String... params) {
-        Log log = LogFactory.getLog(logType, params);
+        LogEntity log = LogFactory.getLog(logType, params);
         writeToFile(log);
     }
 
