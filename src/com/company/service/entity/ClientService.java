@@ -146,7 +146,7 @@ class ClientService {
     }
 
     public String getClientInfoFormatted() {
-        return "Prenume: " + client.getFirstName() + " Nume: " + client.getLastName() +
-                "\nBani: \n" + getFormatedMoneyAmounts(true);
+        return "Prenume: " + client.getFirstName() + " Nume: " + client.getLastName()
+                + "\nBani: \n" + getFormatedMoneyAmounts(true);
     }
 }

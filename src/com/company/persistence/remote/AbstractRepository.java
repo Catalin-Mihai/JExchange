@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class AbstractRepository {
+public final class AbstractRepository {
 
     private static AbstractRepository instance = null;
 

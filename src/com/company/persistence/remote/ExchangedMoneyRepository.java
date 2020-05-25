@@ -14,7 +14,7 @@ public class ExchangedMoneyRepository
         extends GenericRepository<ExchangedMoneyEntity>
         implements MoneyRepositoryInterface<ExchangedMoneyEntity, ExchangeEntity> {
 
-    private static final Class<ExchangedMoneyEntity> entityClass = ExchangedMoneyEntity.class;
+    private static final Class<ExchangedMoneyEntity> ENTITY_CLASS = ExchangedMoneyEntity.class;
     private static ExchangedMoneyRepository instance = null;
 
     private ExchangedMoneyRepository() {
@@ -38,7 +38,7 @@ public class ExchangedMoneyRepository
 
     @Override
     Class<ExchangedMoneyEntity> getEntityClassName() {
-        return entityClass;
+        return ENTITY_CLASS;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class OfficeMoneyRepository
         extends GenericRepository<OfficeMoneyEntity>
         implements MoneyRepositoryInterface<OfficeMoneyEntity, OfficeEntity> {
 
-    private static final Class<OfficeMoneyEntity> entityClass = OfficeMoneyEntity.class;
+    private static final Class<OfficeMoneyEntity> ENTITY_CLASS = OfficeMoneyEntity.class;
     private static OfficeMoneyRepository instance = null;
 
     private OfficeMoneyRepository() {
@@ -33,7 +33,7 @@ public class OfficeMoneyRepository
 
     @Override
     Class<OfficeMoneyEntity> getEntityClassName() {
-        return entityClass;
+        return ENTITY_CLASS;
     }
 
     @Override
@@ -41,8 +41,8 @@ public class OfficeMoneyRepository
         System.out.println(ofEntity);
         Function<Session, List<OfficeMoneyEntity>> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<OfficeMoneyEntity> cr = cb.createQuery(entityClass);
-            Root<OfficeMoneyEntity> root = cr.from(entityClass);
+            CriteriaQuery<OfficeMoneyEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<OfficeMoneyEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root)
                     .where(cb.equal(root.get("office"), ofEntity));
             Query<OfficeMoneyEntity> query = session.createQuery(cr);
@@ -57,8 +57,8 @@ public class OfficeMoneyRepository
     public List<OfficeMoneyEntity> getAllMoneySorted(OfficeEntity ofEntity, boolean asc) {
         Function<Session, List<OfficeMoneyEntity>> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<OfficeMoneyEntity> cr = cb.createQuery(entityClass);
-            Root<OfficeMoneyEntity> root = cr.from(entityClass);
+            CriteriaQuery<OfficeMoneyEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<OfficeMoneyEntity> root = cr.from(ENTITY_CLASS);
             if (asc)
                 cr.select(root).orderBy(cb.asc(root.get("amount")));
             else
@@ -76,8 +76,8 @@ public class OfficeMoneyRepository
     public OfficeMoneyEntity getMoney(OfficeEntity ofEntity, CurrencyEntity currency) {
         Function<Session, OfficeMoneyEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<OfficeMoneyEntity> cr = cb.createQuery(entityClass);
-            Root<OfficeMoneyEntity> root = cr.from(entityClass);
+            CriteriaQuery<OfficeMoneyEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<OfficeMoneyEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root).where(cb.equal(root.get("office"), ofEntity),
                     cb.equal(root.get("currency"), currency));
             Query<OfficeMoneyEntity> query = session.createQuery(cr);
@@ -92,8 +92,8 @@ public class OfficeMoneyRepository
     public void resetAllMoney(OfficeEntity ofEntity) {
         Function<Session, OfficeMoneyEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaUpdate<OfficeMoneyEntity> criteriaUpdate = cb.createCriteriaUpdate(entityClass);
-            Root<OfficeMoneyEntity> root = criteriaUpdate.from(entityClass);
+            CriteriaUpdate<OfficeMoneyEntity> criteriaUpdate = cb.createCriteriaUpdate(ENTITY_CLASS);
+            Root<OfficeMoneyEntity> root = criteriaUpdate.from(ENTITY_CLASS);
             criteriaUpdate.set("amount", 0d);
             criteriaUpdate.where(cb.equal(root.get("office"), ofEntity));
             session.createQuery(criteriaUpdate).executeUpdate();

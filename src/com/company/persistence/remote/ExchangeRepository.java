@@ -4,7 +4,7 @@ import com.company.domain.ExchangeEntity;
 
 public class ExchangeRepository extends GenericRepository<ExchangeEntity> {
 
-    private static final Class<ExchangeEntity> entityClass = ExchangeEntity.class;
+    private static final Class<ExchangeEntity> ENTITY_CLASS = ExchangeEntity.class;
     private static ExchangeRepository instance = null;
 
     private ExchangeRepository() {
@@ -19,7 +19,7 @@ public class ExchangeRepository extends GenericRepository<ExchangeEntity> {
 
     @Override
     Class<ExchangeEntity> getEntityClassName() {
-        return entityClass;
+        return ENTITY_CLASS;
     }
 
 }

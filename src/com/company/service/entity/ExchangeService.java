@@ -1,5 +1,6 @@
 package com.company.service.entity;
 
+
 import com.company.domain.*;
 import com.company.persistence.remote.ExchangeRepository;
 import com.company.persistence.remote.ExchangedMoneyRepository;
@@ -17,7 +18,7 @@ public class ExchangeService {
     private final CurrencyService currencyService = CurrencyService.getInstance();
     private final ClientsManager clientsManager = ClientsManager.getInstance();
 
-    public static ExchangeService instance;
+    private static ExchangeService instance;
 
     public static ExchangeService getInstance() {
         if(instance == null){

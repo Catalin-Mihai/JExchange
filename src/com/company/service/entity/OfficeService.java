@@ -8,7 +8,6 @@ import com.company.persistence.remote.OfficeRepository;
 import com.company.service.io.FileReaderService;
 import com.company.service.io.FileWriterService;
 import com.company.util.factory.OfficeEntityFactory;
-import com.mysql.cj.xdevapi.Client;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,9 +17,9 @@ import java.util.List;
 
 public class OfficeService {
 
-    private static final String exchangeRatesExportFileHeader =
+    private static final String EXCHANGE_RATES_EXPORT_FILE_HEADER =
             "\"Moneda de vandut\", \"Moneda de cumparat\", \"Rata de schimb\"";
-    private static final String exchangesExportFileHeader =
+    private static final String EXCHANGES_EXPORT_FILE_HEADER =
             "\"Nume Client\", \"Bani vanduti\", \"Bani cumparati\", \"Rata de schimb\"";
 
     private static final ExchangeRateRepository exchangeRateRepository = ExchangeRateRepository.getInstance();
@@ -322,7 +321,7 @@ public class OfficeService {
         FileWriterService fileWriterService = FileWriterService.getInstance(filePath, false);
         //append = false -> overwriting
         //Write file header
-        fileWriterService.write(exchangesExportFileHeader, false);
+        fileWriterService.write(EXCHANGES_EXPORT_FILE_HEADER, false);
         // Formatare text
         for (ExchangeEntity exchange : getAllExchanges()) {
             String line = "\"" + exchange.getClient().getName() + "\", "
@@ -396,16 +395,16 @@ public class OfficeService {
 
     public void writeExchangeRatesToFile(String filePath) throws IOException {
         FileWriterService fileWriterService = FileWriterService.getInstance(filePath, false);
-        fileWriterService.write(exchangeRatesExportFileHeader, false);
+        fileWriterService.write(EXCHANGE_RATES_EXPORT_FILE_HEADER, false);
         ArrayList<ExchangeRateEntity> exchangeRates = getAllExchangeRates();
         HashMap<CurrencyEntity, CurrencyEntity> repetitions = new HashMap<>();
         for (ExchangeRateEntity exchangeRate : exchangeRates) {
             //Nu scriem si conversia inversa
             if (repetitions.get(exchangeRate.getToCurrency()) != exchangeRate.getFromCurrency()) {
                 String line = "";
-                line = "\"" + exchangeRate.getFromCurrency().getName() + "\"" +
-                        ", \"" + exchangeRate.getToCurrency().getName() + "\"" +
-                        ", \"" + exchangeRate.getRate() + "\"";
+                line = "\"" + exchangeRate.getFromCurrency().getName() + "\""
+                        + ", \"" + exchangeRate.getToCurrency().getName() + "\""
+                        + ", \"" + exchangeRate.getRate() + "\"";
                 fileWriterService.write(line, false);
                 repetitions.put(exchangeRate.getFromCurrency(), exchangeRate.getToCurrency());
             }

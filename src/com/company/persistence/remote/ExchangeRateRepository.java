@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class ExchangeRateRepository extends GenericRepository<ExchangeRateEntity> {
 
-    private static final Class<ExchangeRateEntity> entityClass = ExchangeRateEntity.class;
+    private static final Class<ExchangeRateEntity> ENTITY_CLASS = ExchangeRateEntity.class;
     private static ExchangeRateRepository instance = null;
 
     private ExchangeRateRepository() {
@@ -27,14 +27,14 @@ public class ExchangeRateRepository extends GenericRepository<ExchangeRateEntity
 
     @Override
     Class<ExchangeRateEntity> getEntityClassName() {
-        return entityClass;
+        return ENTITY_CLASS;
     }
 
     public ExchangeRateEntity getExchangeRate(CurrencyEntity from, CurrencyEntity to) {
         Function<Session, ExchangeRateEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<ExchangeRateEntity> cr = cb.createQuery(entityClass);
-            Root<ExchangeRateEntity> root = cr.from(entityClass);
+            CriteriaQuery<ExchangeRateEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<ExchangeRateEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root).where(cb.equal(root.get("fromCurrency"), from),
                     cb.equal(root.get("toCurrency"), to));
             Query<ExchangeRateEntity> query = session.createQuery(cr);
@@ -49,8 +49,8 @@ public class ExchangeRateRepository extends GenericRepository<ExchangeRateEntity
     public ExchangeRateEntity getExchangeRate(CurrencyEntity from, CurrencyEntity to, Double rate) {
         Function<Session, ExchangeRateEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<ExchangeRateEntity> cr = cb.createQuery(entityClass);
-            Root<ExchangeRateEntity> root = cr.from(entityClass);
+            CriteriaQuery<ExchangeRateEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<ExchangeRateEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root).where(cb.equal(root.get("fromCurrency"), from),
                     cb.equal(root.get("toCurrency"), to),
                     cb.equal(root.get("rate"), rate));

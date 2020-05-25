@@ -13,6 +13,9 @@ public class LogFactory {
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
+    private LogFactory() {
+    }
+
     public static LogEntity getLog(LogService.LogTypes logType, String... param) {
         LocalDateTime localDateTime = LocalDateTime.now();
         LogEntity log = new LogEntity();

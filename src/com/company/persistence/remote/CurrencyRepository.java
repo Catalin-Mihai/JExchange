@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 import java.util.function.Function;
 
 public class CurrencyRepository extends GenericRepository<CurrencyEntity> {
-    private static final Class<CurrencyEntity> entityClass = CurrencyEntity.class;
+    private static final Class<CurrencyEntity> ENTITY_CLASS = CurrencyEntity.class;
     private static CurrencyRepository instance = null;
 
     private CurrencyRepository() {
@@ -25,14 +25,14 @@ public class CurrencyRepository extends GenericRepository<CurrencyEntity> {
 
     @Override
     Class<CurrencyEntity> getEntityClassName() {
-        return entityClass;
+        return ENTITY_CLASS;
     }
 
     public CurrencyEntity getCurrency(String currencyName) {
         Function<Session, CurrencyEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<CurrencyEntity> cr = cb.createQuery(entityClass);
-            Root<CurrencyEntity> root = cr.from(entityClass);
+            CriteriaQuery<CurrencyEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<CurrencyEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root)
                     .where(cb.equal(root.get("name"), currencyName));
             Query<CurrencyEntity> query = session.createQuery(cr);

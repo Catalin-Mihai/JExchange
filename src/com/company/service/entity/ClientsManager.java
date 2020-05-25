@@ -17,7 +17,7 @@ import java.util.Set;
 public class ClientsManager {
 
     private static final ClientRepository clientRepository = ClientRepository.getInstance();
-    private static final String exportFileHeader = "\"First name\", \"Last name\", \"Money\"";
+    private static final String EXPORT_FILE_HEADER = "\"First name\", \"Last name\", \"Money\"";
 
     private static ClientsManager instance = null;
 
@@ -172,7 +172,7 @@ public class ClientsManager {
         FileWriterService fileWriterService = FileWriterService.getInstance(filePath, false);
         //append = false -> overwriting
         //Write file header
-        fileWriterService.write(exportFileHeader, false);
+        fileWriterService.write(EXPORT_FILE_HEADER, false);
         // Formatare text
         for (ClientEntity client : getAllClients()) {
             StringBuilder line = new StringBuilder("\"" + client.getFirstName() + "\", "

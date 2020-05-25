@@ -34,11 +34,11 @@ public class IOMenu {
 
     void processSubMenu() throws DuplicateCurrencyException, InvalidCurrencyNameException, DuplicateClientException, IOException {
         String nume;
-        String nume_nou;
+        String numeNou;
         String numeOffice;
         String prenume;
-        String nume_valuta;
-        String nume_valuta_2;
+        String numeValuta;
+        String numeValuta2;
         String numeVechi;
         double amount;
         switch (menuOption) {
@@ -65,25 +65,25 @@ public class IOMenu {
                         output.println("Introduceti numele monedei pe care doriti sa o modificati: ");
                         nume = input.next();
                         output.println("Introduceti noul nume al monedei: ");
-                        nume_nou = input.next();
-                        currencyService.changeCurrencyName(nume, nume_nou);
-                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_NAME, nume, nume_nou);
+                        numeNou = input.next();
+                        currencyService.changeCurrencyName(nume, numeNou);
+                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_NAME, nume, numeNou);
                         break;
                     case 4:
                         output.println("Introduceti numele monedei pe care doriti sa o modificati: ");
                         nume = input.next();
                         output.println("Introduceti noul simbol al monedei: ");
-                        nume_nou = input.next();
-                        currencyService.changeCurrencySymbol(nume, nume_nou);
-                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_SYMBOL, nume, nume_nou);
+                        numeNou = input.next();
+                        currencyService.changeCurrencySymbol(nume, numeNou);
+                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_SYMBOL, nume, numeNou);
                         break;
                     case 5:
                         output.println("Introduceti numele monedei pe care doriti sa o modificati: ");
                         nume = input.next();
                         output.println("Introduceti noua denumire a tarii pentru moneda: ");
-                        nume_nou = input.next();
-                        currencyService.changeCurrencyCountry(nume, nume_nou);
-                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_COUNTRY, nume, nume_nou);
+                        numeNou = input.next();
+                        currencyService.changeCurrencyCountry(nume, numeNou);
+                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_COUNTRY, nume, numeNou);
                         break;
                     case 6:
                         output.println("Introduceti numele monedei pe care doriti sa o afisati: ");
@@ -114,41 +114,41 @@ public class IOMenu {
                         nume = input.next();
                         //output.println("\"" + nume + "\"");
                         output.println("Introduceti numele valutei/monedei: ");
-                        nume_valuta = input.next();
+                        numeValuta = input.next();
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextDouble();
-                        clientsManager.addMoney(nume, nume_valuta, amount);
-                        LogService.getInstance().log(LogService.LogTypes.CLIENT_ADD_MONEY, nume, nume_valuta, String.valueOf(amount));
+                        clientsManager.addMoney(nume, numeValuta, amount);
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_ADD_MONEY, nume, numeValuta, String.valueOf(amount));
                         break;
                     case 3:
                         output.println("Introduceti prenumele clientului: ");
                         nume = input.next();
                         //output.println("\"" + nume + "\"");
                         output.println("Introduceti numele valutei/monedei: ");
-                        nume_valuta = input.next();
+                        numeValuta = input.next();
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextDouble();
-                        clientsManager.increaseMoney(nume, nume_valuta, amount);
-                        LogService.getInstance().log(LogService.LogTypes.CLIENT_INCREASE_MONEY, nume, nume_valuta, String.valueOf(amount));
+                        clientsManager.increaseMoney(nume, numeValuta, amount);
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_INCREASE_MONEY, nume, numeValuta, String.valueOf(amount));
                         break;
                     case 4:
                         output.println("Introduceti prenumele clientului: ");
                         nume = input.next();
                         //output.println("\"" + nume + "\"");
                         output.println("Introduceti numele valutei/monedei: ");
-                        nume_valuta = input.next();
+                        numeValuta = input.next();
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextDouble();
-                        clientsManager.decreaseMoney(nume, nume_valuta, amount);
-                        LogService.getInstance().log(LogService.LogTypes.CLIENT_DECREASE_MONEY, nume, nume_valuta, String.valueOf(amount));
+                        clientsManager.decreaseMoney(nume, numeValuta, amount);
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_DECREASE_MONEY, nume, numeValuta, String.valueOf(amount));
                         break;
                     case 5:
                         output.println("Introduceti prenumele clientului: ");
                         nume = input.next();
                         output.println("Introduceti noul nume al clientului: ");
-                        nume_nou = input.next();
+                        numeNou = input.next();
                         numeVechi = clientsManager.getClientByFirstName(nume).getName();
-                        clientsManager.changeClientLastName(nume, nume_nou);
+                        clientsManager.changeClientLastName(nume, numeNou);
                         LogService.getInstance().log(LogService.LogTypes.CLIENT_CHANGE_LASTNAME,
                                 numeVechi, clientsManager.getClientByFirstName(nume).getName());
                         break;
@@ -156,11 +156,11 @@ public class IOMenu {
                         output.println("Introduceti prenumele vechi al clientului: ");
                         nume = input.next();
                         output.println("Introduceti noul prenume al clientului: ");
-                        nume_nou = input.next();
+                        numeNou = input.next();
                         numeVechi = clientsManager.getClientByFirstName(nume).getName();
-                        clientsManager.changeClientFirstName(nume, nume_nou);
+                        clientsManager.changeClientFirstName(nume, numeNou);
                         LogService.getInstance().log(LogService.LogTypes.CLIENT_CHANGE_FIRSTNAME,
-                                numeVechi, clientsManager.getClientByFirstName(nume_nou).getName());
+                                numeVechi, clientsManager.getClientByFirstName(numeNou).getName());
                         break;
                     case 7:
                         output.println("Introduceti prenumele clientului: ");
@@ -271,12 +271,12 @@ public class IOMenu {
                         //output.println("\"" + nume + "\"");
                         System.out.println(clientsManager.getClientInfoFormated(nume));
                         output.println("Introduceti numele valutei pe care vreti sa o vindeti: ");
-                        nume_valuta = input.next();
+                        numeValuta = input.next();
                         output.println("Introduceti numele valutei pe care vreti sa o cumparati: ");
-                        nume_valuta_2 = input.next();
+                        numeValuta2 = input.next();
                         output.println("Introduceti cantitatea de bani pe care doriti sa o vindeti: ");
                         amount = input.nextFloat();
-                        int exchangeID = officeService.exchangeMoney(numeOffice, nume, nume_valuta, nume_valuta_2, amount);
+                        int exchangeID = officeService.exchangeMoney(numeOffice, nume, numeValuta, numeValuta2, amount);
                         System.out.println("Tranzactie incheiata cu succes");
                         LogService.getInstance().log(LogService.LogTypes.EXCHANGE_EXCHANGE_MONEY,
                                 String.valueOf(exchangeID));
@@ -287,13 +287,13 @@ public class IOMenu {
                         break;
                     case 3:
                         output.println("Introduceti numele valutei pe care clientul o vinde");
-                        nume_valuta = input.next();
+                        numeValuta = input.next();
                         output.println("Introduceti numele valutei pe care clientul o cumpara");
-                        nume_valuta_2 = input.next();
+                        numeValuta2 = input.next();
                         output.println("Introduceti rata de schimb dintre cele doua monede (Exemplu: 4.77 in cazul Euro->Leu)");
                         amount = input.nextFloat();
-                        officeService.addExchangeRate(nume_valuta, nume_valuta_2, amount);
-                        LogService.getInstance().log(LogService.LogTypes.EXCHANGE_ADD_EXCHANGE_RATE, nume_valuta, nume_valuta_2, String.valueOf(amount));
+                        officeService.addExchangeRate(numeValuta, numeValuta2, amount);
+                        LogService.getInstance().log(LogService.LogTypes.EXCHANGE_ADD_EXCHANGE_RATE, numeValuta, numeValuta2, String.valueOf(amount));
                         break;
                     case 4:
                         output.println("Istoric schimburi valutare: ");

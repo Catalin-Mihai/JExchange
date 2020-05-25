@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class ClientMoneyRepository extends GenericRepository<ClientMoneyEntity>
         implements MoneyRepositoryInterface<ClientMoneyEntity, ClientEntity> {
 
-    private static final Class<ClientMoneyEntity> entityClass = ClientMoneyEntity.class;
+    private static final Class<ClientMoneyEntity> ENTITY_CLASS = ClientMoneyEntity.class;
     private static ClientMoneyRepository instance = null;
 
     private ClientMoneyRepository() {
@@ -32,7 +32,7 @@ public class ClientMoneyRepository extends GenericRepository<ClientMoneyEntity>
 
     @Override
     Class<ClientMoneyEntity> getEntityClassName() {
-        return entityClass;
+        return ENTITY_CLASS;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class ClientMoneyRepository extends GenericRepository<ClientMoneyEntity>
         System.out.println(ofEntity);
         Function<Session, List<ClientMoneyEntity>> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<ClientMoneyEntity> cr = cb.createQuery(entityClass);
-            Root<ClientMoneyEntity> root = cr.from(entityClass);
+            CriteriaQuery<ClientMoneyEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<ClientMoneyEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root)
                     .where(cb.equal(root.get("client"), ofEntity));
             Query<ClientMoneyEntity> query = session.createQuery(cr);
@@ -56,8 +56,8 @@ public class ClientMoneyRepository extends GenericRepository<ClientMoneyEntity>
     public ClientMoneyEntity getMoney(ClientEntity ofEntity, CurrencyEntity currency) {
         Function<Session, ClientMoneyEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<ClientMoneyEntity> cr = cb.createQuery(entityClass);
-            Root<ClientMoneyEntity> root = cr.from(entityClass);
+            CriteriaQuery<ClientMoneyEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<ClientMoneyEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root).where(cb.equal(root.get("client"), ofEntity),
                     cb.equal(root.get("currency"), currency));
             Query<ClientMoneyEntity> query = session.createQuery(cr);
@@ -72,8 +72,8 @@ public class ClientMoneyRepository extends GenericRepository<ClientMoneyEntity>
     public void resetAllMoney(ClientEntity ofEntity) {
         Function<Session, ClientMoneyEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaUpdate<ClientMoneyEntity> criteriaUpdate = cb.createCriteriaUpdate(entityClass);
-            Root<ClientMoneyEntity> root = criteriaUpdate.from(entityClass);
+            CriteriaUpdate<ClientMoneyEntity> criteriaUpdate = cb.createCriteriaUpdate(ENTITY_CLASS);
+            Root<ClientMoneyEntity> root = criteriaUpdate.from(ENTITY_CLASS);
             criteriaUpdate.set("amount", 0d);
             criteriaUpdate.where(cb.equal(root.get("client"), ofEntity));
             session.createQuery(criteriaUpdate).executeUpdate();
@@ -86,8 +86,8 @@ public class ClientMoneyRepository extends GenericRepository<ClientMoneyEntity>
     public List<ClientMoneyEntity> getAllMoneySorted(ClientEntity ofEntity, boolean asc) {
         Function<Session, List<ClientMoneyEntity>> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<ClientMoneyEntity> cr = cb.createQuery(entityClass);
-            Root<ClientMoneyEntity> root = cr.from(entityClass);
+            CriteriaQuery<ClientMoneyEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<ClientMoneyEntity> root = cr.from(ENTITY_CLASS);
             if (asc)
                 cr.select(root).orderBy(cb.asc(root.get("amount")));
             else

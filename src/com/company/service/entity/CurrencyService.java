@@ -13,7 +13,7 @@ import java.util.HashSet;
 
 public class CurrencyService {
 
-    private static final String exportFileHeader = "\"Currency Name\", \"Currency Symbol\", \"Currency Country\"";
+    private static final String EXPORT_FILE_HEADER = "\"Currency Name\", \"Currency Symbol\", \"Currency Country\"";
     private static final CurrencyRepository currencyRepository = CurrencyRepository.getInstance();
 
     private static CurrencyService instance = null;
@@ -110,7 +110,7 @@ public class CurrencyService {
 
     public void writeToFile(String fileName) throws IOException {
         FileWriterService fileWriterService = FileWriterService.getInstance(fileName, false);
-        fileWriterService.write(exportFileHeader, false);
+        fileWriterService.write(EXPORT_FILE_HEADER, false);
         for (CurrencyEntity currency : getAllCurencies()) {
             String line = "\"" + currency.getName() + "\""
                     + ", \"" + currency.getSymbol() + "\""

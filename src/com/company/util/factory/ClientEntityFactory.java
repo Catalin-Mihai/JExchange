@@ -6,6 +6,9 @@ import com.company.service.entity.ClientsManager;
 
 public class ClientEntityFactory {
 
+    private ClientEntityFactory() {
+    }
+
     public static ClientEntity getClient(String firstName, String lastName) {
         if (ClientsManager.getInstance().getClientByFirstName(firstName) != null)
             throw new DuplicateOfficeException("Exista deja acest client");

@@ -6,6 +6,9 @@ import com.company.service.entity.CurrencyService;
 
 public class CurrencyEntityFactory {
 
+    private CurrencyEntityFactory(){
+    }
+
     public static CurrencyEntity getCurrency(String name, String symbol) throws DuplicateCurrencyException {
         // Nu exista deja o valuta cu acest nume
         if (CurrencyService.getInstance().getCurrencyByName(name) != null) {

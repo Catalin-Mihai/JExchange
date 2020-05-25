@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 public class OfficeRepository extends GenericRepository<OfficeEntity> {
 
-    private static final Class<OfficeEntity> entityClass = OfficeEntity.class;
+    private static final Class<OfficeEntity> ENTITY_CLASS = OfficeEntity.class;
     private static OfficeRepository instance = null;
 
     private OfficeRepository() {
@@ -26,14 +26,14 @@ public class OfficeRepository extends GenericRepository<OfficeEntity> {
 
     @Override
     Class<OfficeEntity> getEntityClassName() {
-        return entityClass;
+        return ENTITY_CLASS;
     }
 
     public OfficeEntity getOffice(String officeName) {
         Function<Session, OfficeEntity> f = session -> {
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<OfficeEntity> cr = cb.createQuery(entityClass);
-            Root<OfficeEntity> root = cr.from(entityClass);
+            CriteriaQuery<OfficeEntity> cr = cb.createQuery(ENTITY_CLASS);
+            Root<OfficeEntity> root = cr.from(ENTITY_CLASS);
             cr.select(root).where(cb.equal(root.get("name"), officeName));
             Query<OfficeEntity> query = session.createQuery(cr);
             if (query.getResultList().size() == 0)
