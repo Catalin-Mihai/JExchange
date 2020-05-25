@@ -13,11 +13,20 @@ import java.util.List;
 public class ExchangeService {
 
     private static final ExchangeRepository exchangeRepository = ExchangeRepository.getInstance();
-    private final OfficeService officeService = new OfficeService();
-    private final CurrencyService currencyService = new CurrencyService();
-    private final ClientsManager clientsManager = new ClientsManager();
+    private final OfficeService officeService = OfficeService.getInstance();
+    private final CurrencyService currencyService = CurrencyService.getInstance();
+    private final ClientsManager clientsManager = ClientsManager.getInstance();
 
-    ExchangeService() {
+    public static ExchangeService instance;
+
+    public static ExchangeService getInstance() {
+        if(instance == null){
+            instance = new ExchangeService();
+        }
+        return instance;
+    }
+
+    private ExchangeService() {
     }
 
     public ExchangeEntity addExchange(String officeName, String clientFirstName, String fromCurrency, String toCurrency,

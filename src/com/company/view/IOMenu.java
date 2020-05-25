@@ -20,9 +20,9 @@ public class IOMenu {
 
     private final Scanner input;
     private final PrintStream output;
-    private final CurrencyService currencyService = new CurrencyService();
-    private final ClientsManager clientsManager = new ClientsManager();
-    private final OfficeService officeService = new OfficeService();
+    private final CurrencyService currencyService = CurrencyService.getInstance();
+    private final ClientsManager clientsManager = ClientsManager.getInstance();
+    private final OfficeService officeService = OfficeService.getInstance();
     private final String authorName = "Cioboata Mihai Catalin";
     private int menuOption = 1;
     private int subMenuOption;
@@ -53,13 +53,13 @@ public class IOMenu {
                         output.println("Introduceti simbolul monedei (Ex: RON, EUR, USD): ");
                         String simbol = input.next();
                         currencyService.addCurrency(nume, simbol);
-                        LogService.getInstance().Log(LogService.LogTypes.CURRENCY_ADD_CURRENCY, nume);
+                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_ADD_CURRENCY, nume);
                         break;
                     case 2:
                         output.println("Introduceti numele monedei: ");
                         nume = input.next();
                         currencyService.removeCurrency(nume);
-                        LogService.getInstance().Log(CURRENCY_DELETE_CURRENCY, nume);
+                        LogService.getInstance().log(CURRENCY_DELETE_CURRENCY, nume);
                         break;
                     case 3:
                         output.println("Introduceti numele monedei pe care doriti sa o modificati: ");
@@ -67,7 +67,7 @@ public class IOMenu {
                         output.println("Introduceti noul nume al monedei: ");
                         nume_nou = input.next();
                         currencyService.changeCurrencyName(nume, nume_nou);
-                        LogService.getInstance().Log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_NAME, nume, nume_nou);
+                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_NAME, nume, nume_nou);
                         break;
                     case 4:
                         output.println("Introduceti numele monedei pe care doriti sa o modificati: ");
@@ -75,7 +75,7 @@ public class IOMenu {
                         output.println("Introduceti noul simbol al monedei: ");
                         nume_nou = input.next();
                         currencyService.changeCurrencySymbol(nume, nume_nou);
-                        LogService.getInstance().Log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_SYMBOL, nume, nume_nou);
+                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_SYMBOL, nume, nume_nou);
                         break;
                     case 5:
                         output.println("Introduceti numele monedei pe care doriti sa o modificati: ");
@@ -83,7 +83,7 @@ public class IOMenu {
                         output.println("Introduceti noua denumire a tarii pentru moneda: ");
                         nume_nou = input.next();
                         currencyService.changeCurrencyCountry(nume, nume_nou);
-                        LogService.getInstance().Log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_COUNTRY, nume, nume_nou);
+                        LogService.getInstance().log(LogService.LogTypes.CURRENCY_CHANGE_CURRENCY_COUNTRY, nume, nume_nou);
                         break;
                     case 6:
                         output.println("Introduceti numele monedei pe care doriti sa o afisati: ");
@@ -107,7 +107,7 @@ public class IOMenu {
                         output.println("Introduceti prenumele clientului: ");
                         prenume = input.next();
                         clientsManager.addClient(prenume, nume);
-                        LogService.getInstance().Log(LogService.LogTypes.CLIENT_ADD_CLIENT, prenume);
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_ADD_CLIENT, prenume);
                         break;
                     case 2:
                         output.println("Introduceti prenumele clientului: ");
@@ -118,7 +118,7 @@ public class IOMenu {
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextDouble();
                         clientsManager.addMoney(nume, nume_valuta, amount);
-                        LogService.getInstance().Log(LogService.LogTypes.CLIENT_ADD_MONEY, nume, nume_valuta, String.valueOf(amount));
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_ADD_MONEY, nume, nume_valuta, String.valueOf(amount));
                         break;
                     case 3:
                         output.println("Introduceti prenumele clientului: ");
@@ -129,7 +129,7 @@ public class IOMenu {
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextDouble();
                         clientsManager.increaseMoney(nume, nume_valuta, amount);
-                        LogService.getInstance().Log(LogService.LogTypes.CLIENT_INCREASE_MONEY, nume, nume_valuta, String.valueOf(amount));
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_INCREASE_MONEY, nume, nume_valuta, String.valueOf(amount));
                         break;
                     case 4:
                         output.println("Introduceti prenumele clientului: ");
@@ -140,7 +140,7 @@ public class IOMenu {
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextDouble();
                         clientsManager.decreaseMoney(nume, nume_valuta, amount);
-                        LogService.getInstance().Log(LogService.LogTypes.CLIENT_DECREASE_MONEY, nume, nume_valuta, String.valueOf(amount));
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_DECREASE_MONEY, nume, nume_valuta, String.valueOf(amount));
                         break;
                     case 5:
                         output.println("Introduceti prenumele clientului: ");
@@ -149,7 +149,7 @@ public class IOMenu {
                         nume_nou = input.next();
                         numeVechi = clientsManager.getClientByFirstName(nume).getName();
                         clientsManager.changeClientLastName(nume, nume_nou);
-                        LogService.getInstance().Log(LogService.LogTypes.CLIENT_CHANGE_LASTNAME,
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_CHANGE_LASTNAME,
                                 numeVechi, clientsManager.getClientByFirstName(nume).getName());
                         break;
                     case 6:
@@ -159,14 +159,14 @@ public class IOMenu {
                         nume_nou = input.next();
                         numeVechi = clientsManager.getClientByFirstName(nume).getName();
                         clientsManager.changeClientFirstName(nume, nume_nou);
-                        LogService.getInstance().Log(LogService.LogTypes.CLIENT_CHANGE_FIRSTNAME,
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_CHANGE_FIRSTNAME,
                                 numeVechi, clientsManager.getClientByFirstName(nume_nou).getName());
                         break;
                     case 7:
                         output.println("Introduceti prenumele clientului: ");
                         nume = input.next();
                         clientsManager.resetClientAllMoney(nume);
-                        LogService.getInstance().Log(LogService.LogTypes.CLIENT_RESET_ALL_MONEY, nume);
+                        LogService.getInstance().log(LogService.LogTypes.CLIENT_RESET_ALL_MONEY, nume);
                         break;
                     case 8:
                         output.println("Introduceti prenumele clientului: ");
@@ -212,7 +212,7 @@ public class IOMenu {
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextDouble();
                         officeService.addMoney(numeOffice, nume, amount);
-                        LogService.getInstance().Log(LogService.LogTypes.OFFICE_ADD_MONEY, numeOffice, nume, String.valueOf(amount));
+                        LogService.getInstance().log(LogService.LogTypes.OFFICE_ADD_MONEY, numeOffice, nume, String.valueOf(amount));
                         break;
                     case 3:
                         output.println("Introduceti numele oficiului de schimb valutar: ");
@@ -222,7 +222,7 @@ public class IOMenu {
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextFloat();
                         officeService.increaseMoney(numeOffice, nume, amount);
-                        LogService.getInstance().Log(LogService.LogTypes.OFFICE_INCREASE_MONEY, numeOffice, nume, String.valueOf(amount));
+                        LogService.getInstance().log(LogService.LogTypes.OFFICE_INCREASE_MONEY, numeOffice, nume, String.valueOf(amount));
                         break;
                     case 4:
                         output.println("Introduceti numele oficiului de schimb valutar: ");
@@ -232,14 +232,14 @@ public class IOMenu {
                         output.println("Introduceti cantitatea de bani: ");
                         amount = input.nextFloat();
                         officeService.decreaseMoney(numeOffice, nume, amount);
-                        LogService.getInstance().Log(LogService.LogTypes.OFFICE_DECREASE_MONEY, numeOffice, nume, String.valueOf(amount));
+                        LogService.getInstance().log(LogService.LogTypes.OFFICE_DECREASE_MONEY, numeOffice, nume, String.valueOf(amount));
                         break;
                     case 5:
                         output.println("Introduceti numele oficiului de schimb valutar: ");
                         numeOffice = input.next();
                         officeService.resetOfficeAllMoney(numeOffice);
                         output.println("Banii au fost resetati!");
-                        LogService.getInstance().Log(LogService.LogTypes.OFFICE_RESET_MONEY, numeOffice);
+                        LogService.getInstance().log(LogService.LogTypes.OFFICE_RESET_MONEY, numeOffice);
                         break;
                     case 6:
                         output.println("Introduceti numele oficiului de schimb valutar: ");
@@ -278,7 +278,7 @@ public class IOMenu {
                         amount = input.nextFloat();
                         int exchangeID = officeService.exchangeMoney(numeOffice, nume, nume_valuta, nume_valuta_2, amount);
                         System.out.println("Tranzactie incheiata cu succes");
-                        LogService.getInstance().Log(LogService.LogTypes.EXCHANGE_EXCHANGE_MONEY,
+                        LogService.getInstance().log(LogService.LogTypes.EXCHANGE_EXCHANGE_MONEY,
                                 String.valueOf(exchangeID));
                         break;
                     case 2:
@@ -292,12 +292,12 @@ public class IOMenu {
                         nume_valuta_2 = input.next();
                         output.println("Introduceti rata de schimb dintre cele doua monede (Exemplu: 4.77 in cazul Euro->Leu)");
                         amount = input.nextFloat();
-                        new OfficeService().addExchangeRate(nume_valuta, nume_valuta_2, amount);
-                        LogService.getInstance().Log(LogService.LogTypes.EXCHANGE_ADD_EXCHANGE_RATE, nume_valuta, nume_valuta_2, String.valueOf(amount));
+                        officeService.addExchangeRate(nume_valuta, nume_valuta_2, amount);
+                        LogService.getInstance().log(LogService.LogTypes.EXCHANGE_ADD_EXCHANGE_RATE, nume_valuta, nume_valuta_2, String.valueOf(amount));
                         break;
                     case 4:
                         output.println("Istoric schimburi valutare: ");
-                        output.println(new OfficeService().getAllExchangesFormatted());
+                        output.println(officeService.getAllExchangesFormatted());
                         break;
                 }
                 break;

@@ -8,6 +8,7 @@ import com.company.persistence.remote.OfficeRepository;
 import com.company.service.io.FileReaderService;
 import com.company.service.io.FileWriterService;
 import com.company.util.factory.OfficeEntityFactory;
+import com.mysql.cj.xdevapi.Client;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,8 +27,21 @@ public class OfficeService {
     private static final OfficeMoneyRepository officeMoneyRepository = OfficeMoneyRepository.getInstance();
     private static final OfficeRepository officeRepository = OfficeRepository.getInstance();
 
-    private final ClientsManager clientsManager = new ClientsManager();
-    private final CurrencyService currencyService = new CurrencyService();
+    private final ClientsManager clientsManager = ClientsManager.getInstance();
+    private final CurrencyService currencyService = CurrencyService.getInstance();
+
+    private static OfficeService instance = null;
+
+    public static OfficeService getInstance() {
+        if(instance == null){
+            instance = new OfficeService();
+        }
+        return instance;
+    }
+
+    private OfficeService() {
+
+    }
 
     /*
         OFFICE METHODS
@@ -248,17 +262,17 @@ public class OfficeService {
 
 
         // Facem log pentru acest timp de actiune
-        ExchangeEntity exchange = new ExchangeService().addExchange(officeName, clientFirstName, fromCurrencyName,
+        ExchangeEntity exchange = ExchangeService.getInstance().addExchange(officeName, clientFirstName, fromCurrencyName,
                 toCurrencyName, amount, newAmount, exchangeRate);
         return exchange.getId();
     }
 
     public ExchangeEntity getExchange(Integer exchangeID) {
-        return new ExchangeService().getExchange(exchangeID);
+        return ExchangeService.getInstance().getExchange(exchangeID);
     }
 
     public ArrayList<ExchangeEntity> getAllExchanges() {
-        return new ArrayList<>(new ExchangeService().getAllExchanges());
+        return new ArrayList<>(ExchangeService.getInstance().getAllExchanges());
     }
 
     public String getAllExchangesFormatted() {
@@ -298,7 +312,7 @@ public class OfficeService {
 
             ExchangeRateEntity exchangeRateEntity = getExchangeRate(currencyGivenName, currencyReceivedName);
 
-            new ExchangeService().addExchange(officeName, clientName.split(" ")[0], currencyGivenName,
+            ExchangeService.getInstance().addExchange(officeName, clientName.split(" ")[0], currencyGivenName,
                     currencyReceivedName, amountGiven, amountReceived, exchangeRateEntity);
         }
     }

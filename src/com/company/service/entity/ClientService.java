@@ -15,16 +15,21 @@ import java.util.List;
 
 class ClientService {
 
-    /**
-     * Folosita intern -> Constructor accesibil doar pentru acest package.
-     */
-
-    private final ClientEntity client;
+    private static ClientEntity client;
     private final ClientMoneyRepository clientMoneyRepository = ClientMoneyRepository.getInstance();
-    private final CurrencyService currencyService = new CurrencyService();
+    private final CurrencyService currencyService = CurrencyService.getInstance();
 
-    ClientService(ClientEntity client) {
-        this.client = client;
+    private static ClientService instance = null;
+
+    public static ClientService getInstance(ClientEntity client){
+        if(instance == null) {
+            instance = new ClientService();
+        }
+        ClientService.client = client;
+        return instance;
+    }
+
+    private ClientService() {
     }
 
     CurrencyEntity getByCurrencyName(String currencyName) {

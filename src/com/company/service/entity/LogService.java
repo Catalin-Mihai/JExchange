@@ -50,7 +50,7 @@ public class LogService {
         }
     }
 
-    public void Log(LogTypes logType, String... params) {
+    public void log(LogTypes logType, String... params) {
         LogEntity log = LogFactory.getLog(logType, params);
         writeToFile(log);
     }

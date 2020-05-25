@@ -13,9 +13,20 @@ import java.util.HashSet;
 
 public class CurrencyService {
 
-
     private static final String exportFileHeader = "\"Currency Name\", \"Currency Symbol\", \"Currency Country\"";
     private static final CurrencyRepository currencyRepository = CurrencyRepository.getInstance();
+
+    private static CurrencyService instance = null;
+
+    public static CurrencyService getInstance() {
+        if(instance == null){
+            instance = new CurrencyService();
+        }
+        return instance;
+    }
+
+    private CurrencyService() {
+    }
 
     public CurrencyEntity getCurrencyByName(String name) {
         return currencyRepository.getCurrency(name);

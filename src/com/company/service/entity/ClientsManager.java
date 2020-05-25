@@ -19,6 +19,18 @@ public class ClientsManager {
     private static final ClientRepository clientRepository = ClientRepository.getInstance();
     private static final String exportFileHeader = "\"First name\", \"Last name\", \"Money\"";
 
+    private static ClientsManager instance = null;
+
+    public static ClientsManager getInstance() {
+        if(instance == null){
+            instance = new ClientsManager();
+        }
+        return instance;
+    }
+
+    private ClientsManager() {
+
+    }
 
     public ClientEntity getClient(String firstName) {
         ClientEntity clientEntity = getClientByFirstName(firstName);
@@ -51,7 +63,7 @@ public class ClientsManager {
 
     public Double getMoneyAmount(String firstName, String currencyName) {
         ClientEntity client = getClient(firstName);
-        return new ClientService(client).getMoneyAmount(currencyName);
+        return ClientService.getInstance(client).getMoneyAmount(currencyName);
     }
 
     public void changeClientLastName(String fromFirstName, String toLastName) {
@@ -62,19 +74,19 @@ public class ClientsManager {
 
     public void addMoney(String firstName, String currencyName, Double amount) {
         ClientEntity client = getClient(firstName);
-        new ClientService(client)
+        ClientService.getInstance(client)
                 .addMoney(currencyName, amount);
     }
 
     public void decreaseMoney(String firstName, String currencyName, Double amount) {
         ClientEntity client = getClient(firstName);
-        new ClientService(client)
+        ClientService.getInstance(client)
                 .decreaseMoney(currencyName, amount);
     }
 
     public void increaseMoney(String firstName, String currencyName, Double amount) {
         ClientEntity client = getClient(firstName);
-        new ClientService(client)
+        ClientService.getInstance(client)
                 .increaseMoney(currencyName, amount);
     }
 
@@ -84,14 +96,14 @@ public class ClientsManager {
 
     public String getClientInfoFormated(String firstName) {
         ClientEntity client = getClient(firstName);
-        return new ClientService(client).getClientInfoFormatted();
+        return ClientService.getInstance(client).getClientInfoFormatted();
     }
 
     public String getAllClientsInfoFormated() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Informatii despre toti clientii\n");
         for (ClientEntity client : clientRepository.getAll()) {
-            stringBuilder.append(new ClientService(client).getClientInfoFormatted());
+            stringBuilder.append(ClientService.getInstance(client).getClientInfoFormatted());
             stringBuilder.append(System.lineSeparator());
         }
         return stringBuilder.toString();
@@ -99,37 +111,37 @@ public class ClientsManager {
 
     public List<ClientMoneyEntity> getClientAllMoney(String firstName) {
         ClientEntity client = getClient(firstName);
-        return new ClientService(client).getAllMoney();
+        return ClientService.getInstance(client).getAllMoney();
     }
 
     public ClientMoneyEntity getClientMoney(String firstName, String currencyName) {
         ClientEntity client = getClient(firstName);
-        return new ClientService(client).getMoney(currencyName);
+        return ClientService.getInstance(client).getMoney(currencyName);
     }
 
     public void resetClientMoney(String firstName, String currencyName) {
         ClientEntity client = getClient(firstName);
-        new ClientService(client).resetMoney(currencyName);
+        ClientService.getInstance(client).resetMoney(currencyName);
     }
 
     public void resetClientAllMoney(String firstName) {
         ClientEntity client = getClient(firstName);
-        new ClientService(client).resetAllMoney();
+        ClientService.getInstance(client).resetAllMoney();
     }
 
     public void showClientMoney(String firstName, boolean sorted) {
         ClientEntity client = getClient(firstName);
-        new ClientService(client).showClientMoney(true);
+        ClientService.getInstance(client).showClientMoney(true);
     }
 
     public String getClientBiggestMoneyAmount(String firstName) {
         ClientEntity client = getClient(firstName);
-        return new ClientService(client).getBiggestMoneyAmountFormatted();
+        return ClientService.getInstance(client).getBiggestMoneyAmountFormatted();
     }
 
     public String getClientSmallestMoneyAmount(String firstName) {
         ClientEntity client = getClient(firstName);
-        return new ClientService(client).getSmallestMoneyAmountFormatted();
+        return ClientService.getInstance(client).getSmallestMoneyAmountFormatted();
     }
 
     public void readClientsFromFile(String fileName) throws IOException {

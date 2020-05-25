@@ -31,7 +31,7 @@ public class LogFactory {
          */
             case CLIENT_ADD_CLIENT:
                 logLevel = LogEntity.LogLevel.HIGH;
-                client = new ClientsManager().getClientByFirstName(param[0]);
+                client = ClientsManager.getInstance().getClientByFirstName(param[0]);
                 message = "A fost adaugat clientul " + client.getName();
                 break;
             case CLIENT_CHANGE_LASTNAME:
@@ -41,18 +41,18 @@ public class LogFactory {
                 break;
             case CLIENT_RESET_ALL_MONEY:
                 logLevel = LogEntity.LogLevel.HIGH;
-                client = new ClientsManager().getClientByFirstName(param[0]);
+                client = ClientsManager.getInstance().getClientByFirstName(param[0]);
                 message = "Clientului " + client.getName() + " i-au fost resetati banii detinuti in toate valutele.";
                 break;
             case CLIENT_RESET_MONEY:
                 logLevel = LogEntity.LogLevel.HIGH;
-                client = new ClientsManager().getClientByFirstName(param[0]);
+                client = ClientsManager.getInstance().getClientByFirstName(param[0]);
                 message = "Clientului " + client.getName() + " i-au fost resetati banii detinuti in valuta "
                         + param[1];
                 break;
             case CLIENT_ADD_MONEY:
-                client = new ClientsManager().getClientByFirstName(param[0]);
-                clientMoney.setCurrency(new CurrencyService().getCurrencyByName(param[1]));
+                client = ClientsManager.getInstance().getClientByFirstName(param[0]);
+                clientMoney.setCurrency(CurrencyService.getInstance().getCurrencyByName(param[1]));
                 clientMoney.setAmount(Double.parseDouble(param[2]));
                 clientMoney.setClient(client);
                 logLevel = LogEntity.LogLevel.HIGH;
@@ -60,8 +60,8 @@ public class LogFactory {
                         + clientMoney.toString();
                 break;
             case CLIENT_INCREASE_MONEY:
-                client = new ClientsManager().getClientByFirstName(param[0]);
-                clientMoney.setCurrency(new CurrencyService().getCurrencyByName(param[1]));
+                client = ClientsManager.getInstance().getClientByFirstName(param[0]);
+                clientMoney.setCurrency(CurrencyService.getInstance().getCurrencyByName(param[1]));
                 clientMoney.setAmount(Double.parseDouble(param[2]));
                 clientMoney.setClient(client);
                 logLevel = LogEntity.LogLevel.HIGH;
@@ -69,8 +69,8 @@ public class LogFactory {
                         + clientMoney.toString();
                 break;
             case CLIENT_DECREASE_MONEY:
-                client = new ClientsManager().getClientByFirstName(param[0]);
-                clientMoney.setCurrency(new CurrencyService().getCurrencyByName(param[1]));
+                client = ClientsManager.getInstance().getClientByFirstName(param[0]);
+                clientMoney.setCurrency(CurrencyService.getInstance().getCurrencyByName(param[1]));
                 clientMoney.setAmount(Double.parseDouble(param[2]));
                 clientMoney.setClient(client);
                 logLevel = LogEntity.LogLevel.HIGH;
@@ -84,7 +84,7 @@ public class LogFactory {
 
             case CURRENCY_ADD_CURRENCY:
                 logLevel = LogEntity.LogLevel.MEDIUM;
-                CurrencyEntity currency = new CurrencyService().getCurrencyByName(param[0]);
+                CurrencyEntity currency = CurrencyService.getInstance().getCurrencyByName(param[0]);
                 message = "A fost adaugata moneda -> Nume: " + param[0]
                         + " Simbol: " + currency.getSymbol() + " Tara: " + currency.getCountry();
                 break;
@@ -112,16 +112,16 @@ public class LogFactory {
             case OFFICE_ADD_MONEY:
             case OFFICE_INCREASE_MONEY:
                 logLevel = LogEntity.LogLevel.MEDIUM;
-                officeMoney.setOffice(new OfficeService().getOffice(param[0]));
-                officeMoney.setCurrency(new CurrencyService().getCurrencyByName(param[1]));
+                officeMoney.setOffice(OfficeService.getInstance().getOffice(param[0]));
+                officeMoney.setCurrency(CurrencyService.getInstance().getCurrencyByName(param[1]));
                 officeMoney.setAmount(Double.parseDouble(param[2]));
                 message = "Au fost adaugati " + officeMoney.getCurrency().getName() + " " + officeMoney.getAmount()
                         + " casei de schimb valutar " + officeMoney.getOffice().getName();
                 break;
             case OFFICE_DECREASE_MONEY:
                 logLevel = LogEntity.LogLevel.MEDIUM;
-                officeMoney.setOffice(new OfficeService().getOffice(param[0]));
-                officeMoney.setCurrency(new CurrencyService().getCurrencyByName(param[1]));
+                officeMoney.setOffice(OfficeService.getInstance().getOffice(param[0]));
+                officeMoney.setCurrency(CurrencyService.getInstance().getCurrencyByName(param[1]));
                 officeMoney.setAmount(Double.parseDouble(param[2]));
                 message = "Au fost retrasi " + officeMoney.getCurrency().getName() + " " + officeMoney.getAmount()
                         + " casei de schimb valutar " + officeMoney.getOffice().getName();
@@ -138,7 +138,7 @@ public class LogFactory {
 
             case EXCHANGE_EXCHANGE_MONEY:
                 logLevel = LogEntity.LogLevel.MEDIUM;
-                ExchangeEntity exchange = new OfficeService().getExchange(Integer.parseInt(param[0]));
+                ExchangeEntity exchange = OfficeService.getInstance().getExchange(Integer.parseInt(param[0]));
                 message = "Clientul " + exchange.getClient().getName()
                         + " a schimbat suma de "
                         + exchange.getMoneyGiven()
