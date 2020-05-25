@@ -20,4 +20,4 @@ All ORM files handled by Hibernate are located in the `src` directory. There is 
 
 The schema for the database is:
 
-![DB Schema](schema.png)
+![DB Schema](schema.PNG)
